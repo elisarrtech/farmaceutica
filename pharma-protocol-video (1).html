@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo Farmacéutico - Video Profesional</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a1628;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        .slide {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem 2rem;
+            position: relative;
+            background: linear-gradient(135deg, #0a1628 0%, #1a2845 100%);
+        }
+        
+        .slide-content {
+            max-width: 1400px;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+        }
+        
+        .slide h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 20px rgba(0, 174, 239, 0.5);
+            line-height: 1.2;
+        }
+        
+        .slide h2 {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            color: #00aeef;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        .slide p {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: #e0e6ed;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        .bullet-list {
+            text-align: left;
+            max-width: 1100px;
+            margin: 2rem auto;
+            width: 100%;
+        }
+        
+        .bullet-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: rgba(0, 174, 239, 0.1);
+            border-left: 4px solid #00aeef;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        
+        .bullet-item:hover {
+            transform: translateX(10px);
+            background: rgba(0, 174, 239, 0.15);
+        }
+        
+        .bullet-icon {
+            min-width: 50px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #00aeef, #0088cc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .bullet-text { flex: 1; }
+        
+        .bullet-text strong {
+            color: #00aeef;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .bullet-text p {
+            margin-top: 0.5rem;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+        }
+        
+        .process-diagram {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem auto;
+            max-width: 1200px;
+        }
+        
+        .process-step {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 2px solid #00aeef;
+            transition: transform 0.3s;
+        }
+        
+        .process-step:hover {
+            transform: translateY(-10px);
+            background: rgba(0, 174, 239, 0.15);
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00aeef, #0088cc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .step-title {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: #00aeef;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .step-desc {
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
+            color: #e0e6ed;
+        }
+        
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin: 3rem auto;
+            max-width: 1200px;
+        }
+        
+        .equipment-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid rgba(0, 174, 239, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .equipment-item:hover {
+            border-color: #00aeef;
+            background: rgba(0, 174, 239, 0.1);
+            transform: translateY(-8px);
+        }
+        
+        .equipment-icon { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .equipment-name { font-size: clamp(1rem, 2vw, 1.2rem); color: #00aeef; margin-bottom: 0.8rem; font-weight: 600; }
+        .equipment-desc { font-size: clamp(0.85rem, 1.5vw, 0.95rem); color: #e0e6ed; }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #00aeef, #0088cc);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 2rem auto;
+            max-width: 1200px;
+        }
+        
+        .cta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .cta-item { padding: 1.5rem; text-align: center; }
+        .cta-item-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .cta-item h3 { color: white; font-size: clamp(1.2rem, 2.5vw, 1.5rem); margin-bottom: 0.8rem; }
+        .cta-item p { color: rgba(255,255,255,0.9); font-size: clamp(0.9rem, 1.5vw, 1rem); }
+        
+        .cta-button {
+            background: white;
+            color: #0088cc;
+            padding: 1.2rem 3rem;
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1.5rem;
+            transition: transform 0.3s;
+        }
+        
+        .cta-button:hover { transform: scale(1.05); }
+        
+        .contact-info { margin-top: 3rem; color: white; font-size: clamp(1rem, 2vw, 1.3rem); }
+        .contact-info p { margin: 0.8rem 0; }
+        
+        .logo-corner {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+            color: #00aeef;
+            font-weight: bold;
+            z-index: 10;
+        }
+        
+        /* Avatar */
+        .avatar-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffefd5, #ffe4b5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border: 5px solid #fff;
+            cursor: pointer;
+            transition: transform 0.3s;
+            position: relative;
+            overflow: visible;
+        }
+        
+        .avatar:hover { transform: scale(1.05); }
+        .avatar.talking { animation: talking 0.4s ease-in-out infinite; }
+        
+        @keyframes talking {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+        
+        /* Cabello */
+        .avatar-hair {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 160px;
+            height: 140px;
+            background: linear-gradient(135deg, #4a2c2a, #6b4423);
+            border-radius: 50% 50% 0 0;
+            z-index: 1;
+        }
+        
+        .avatar-hair::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: -15px;
+            width: 60px;
+            height: 100px;
+            background: linear-gradient(135deg, #4a2c2a, #6b4423);
+            border-radius: 50px 0 0 50px;
+        }
+        
+        .avatar-hair::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: -15px;
+            width: 60px;
+            height: 100px;
+            background: linear-gradient(135deg, #4a2c2a, #6b4423);
+            border-radius: 0 50px 50px 0;
+        }
+        
+        /* Cara */
+        .avatar-face {
+            position: absolute;
+            width: 120px;
+            height: 140px;
+            background: linear-gradient(135deg, #ffd5b5, #ffcba4);
+            border-radius: 50% 50% 45% 45%;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+        
+        /* Ojos */
+        .avatar-eyes {
+            position: absolute;
+            top: 50px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            z-index: 3;
+        }
+        
+        .avatar-eye {
+            width: 18px;
+            height: 22px;
+            background: white;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .avatar-eye::before {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #4a2c2a;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .avatar-eye::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            top: 6px;
+            left: 6px;
+        }
+        
+        /* Cejas */
+        .avatar-eyebrow {
+            position: absolute;
+            width: 20px;
+            height: 3px;
+            background: #4a2c2a;
+            border-radius: 2px;
+            top: -8px;
+        }
+        
+        .avatar-eye:first-child .avatar-eyebrow {
+            transform: rotate(-10deg);
+        }
+        
+        .avatar-eye:last-child .avatar-eyebrow {
+            transform: rotate(10deg);
+        }
+        
+        /* Nariz */
+        .avatar-nose {
+            position: absolute;
+            top: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 12px;
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.05));
+            border-radius: 50%;
+            z-index: 3;
+        }
+        
+        /* Boca */
+        .avatar-mouth {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 35px;
+            height: 18px;
+            border: 3px solid #c94a4a;
+            border-top: none;
+            border-radius: 0 0 35px 35px;
+            background: linear-gradient(to bottom, #ff9999, #ff7777);
+            z-index: 3;
+        }
+        
+        .avatar.talking .avatar-mouth {
+            animation: mouth-talk 0.4s ease-in-out infinite;
+        }
+        
+        @keyframes mouth-talk {
+            0%, 100% { 
+                height: 18px;
+                border-radius: 0 0 35px 35px;
+            }
+            50% { 
+                height: 28px;
+                border-radius: 0 0 40px 40px;
+            }
+        }
+        
+        /* Mejillas */
+        .avatar-cheek {
+            position: absolute;
+            width: 20px;
+            height: 15px;
+            background: rgba(255, 150, 150, 0.3);
+            border-radius: 50%;
+            top: 95px;
+            z-index: 2;
+        }
+        
+        .avatar-cheek.left { left: 15px; }
+        .avatar-cheek.right { right: 15px; }
+        
+        /* Cuello */
+        .avatar-neck {
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 30px;
+            background: linear-gradient(135deg, #ffcba4, #ffb894);
+            border-radius: 0 0 10px 10px;
+            z-index: 1;
+        }
+        
+        /* Ropa profesional */
+        .avatar-clothing {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 60px;
+            background: linear-gradient(135deg, #00aeef, #0088cc);
+            border-radius: 60px 60px 0 0;
+            z-index: 0;
+        }
+        
+        .avatar-collar {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 30px solid white;
+        }
+        
+        .audio-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .control-btn {
+            background: linear-gradient(135deg, #00aeef, #0088cc);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+        
+        .control-btn:hover { transform: scale(1.1); }
+        .control-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .progress-indicator {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.8rem;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+        }
+        
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .progress-dot.active {
+            background: #00aeef;
+            transform: scale(1.3);
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .avatar-container { bottom: 6rem; right: 1rem; }
+            .avatar { width: 100px; height: 100px; font-size: 50px; }
+            .avatar-mouth { bottom: 25px; width: 30px; height: 15px; }
+            .avatar-eyes { top: 30px; gap: 15px; }
+            .avatar-eye { width: 8px; height: 8px; }
+        }
+        
+        .audio-indicator {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 20px;
+            height: 20px;
+            background: #4caf50;
+            border-radius: 50%;
+            border: 2px solid white;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Audio files (hidden) -->
+    <audio id="audio1" src="AUDIO1.MP3" preload="auto"></audio>
+    <audio id="audio2" src="AUDIO2.MP3" preload="auto"></audio>
+    <audio id="audio3" src="AUDIO3.MP3" preload="auto"></audio>
+    <audio id="audio4" src="AUDIO4.MP3" preload="auto"></audio>
+    <audio id="audio5" src="AUDIO5.MP3" preload="auto"></audio>
+    <audio id="audio6" src="AUDIO6.MP3" preload="auto"></audio>
+    <audio id="audio7" src="AUDIO7.MP3" preload="auto"></audio>
+
+    <div class="video-container">
+        <!-- Slide 1 -->
+        <div class="slide" data-slide="0" data-audio="audio1">
+            <div class="logo-corner">🏥 Reclutamiento Profesional</div>
+            <div class="slide-content">
+                <h1>Protocolo de Ingreso a Áreas Productivas</h1>
+                <h2>Empresa Farmacéutica de Excelencia</h2>
+                <p style="max-width: 800px; margin: 2rem auto;">Conoce el proceso que garantiza los más altos estándares de bioseguridad</p>
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide" data-slide="1" data-audio="audio2">
+            <div class="slide-content">
+                <h2>🎯 Paso 1: Recepción</h2>
+                <p style="font-size: clamp(1.2rem, 2.5vw, 1.8rem); margin-bottom: 3rem;">Al llegar, recibirás tu equipo de seguridad completo</p>
+                <div class="bullet-list">
+                    <div class="bullet-item">
+                        <div class="bullet-icon">👔</div>
+                        <div class="bullet-text">
+                            <strong>Uniforme Estéril Completo</strong>
+                            <p>Pijama y overol según normativas internacionales</p>
+                        </div>
+                    </div>
+                    <div class="bullet-item">
+                        <div class="bullet-icon">🛡️</div>
+                        <div class="bullet-text">
+                            <strong>Equipo de Protección</strong>
+                            <p>Material certificado GMP para tu seguridad</p>
+                        </div>
+                    </div>
+                    <div class="bullet-item">
+                        <div class="bullet-icon">👨‍⚕️</div>
+                        <div class="bullet-text">
+                            <strong>Asistencia Profesional</strong>
+                            <p>Personal capacitado te guiará paso a paso</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide" data-slide="2" data-audio="audio3">
+            <div class="slide-content">
+                <h2>🔒 Sistema de Doble Filtro</h2>
+                <p style="font-size: clamp(1.1rem, 2vw, 1.6rem); margin-bottom: 3rem;">Arquitectura certificada de protección máxima</p>
+                <div class="process-diagram">
+                    <div class="process-step" style="background: rgba(128, 128, 128, 0.2);">
+                        <div class="step-number">🚪</div>
+                        <div class="step-title">Entrada</div>
+                        <div class="step-desc">Acceso exterior</div>
+                    </div>
+                    <div class="process-step" style="background: rgba(0, 174, 239, 0.15);">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Filtro 1</div>
+                        <div class="step-desc">Primera barrera</div>
+                    </div>
+                    <div class="process-step" style="background: rgba(0, 136, 204, 0.2);">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Filtro 2</div>
+                        <div class="step-desc">Segunda barrera</div>
+                    </div>
+                    <div class="process-step" style="background: rgba(76, 175, 80, 0.2);">
+                        <div class="step-number">✓</div>
+                        <div class="step-title">Producción</div>
+                        <div class="step-desc">Área estéril</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide" data-slide="3" data-audio="audio4">
+            <div class="slide-content">
+                <h2>1️⃣ Filtro 1: Transición</h2>
+                <div class="bullet-list">
+                    <div class="bullet-item">
+                        <div class="bullet-icon">👕</div>
+                        <div class="bullet-text">
+                            <strong>Retira Ropa de Calle</strong>
+                            <p>Separa tu vestimenta del área controlada</p>
+                        </div>
+                    </div>
+                    <div class="bullet-item">
+                        <div class="bullet-icon">🔐</div>
+                        <div class="bullet-text">
+                            <strong>Guarda en Casillero</strong>
+                            <p>Pertenencias seguras en tu locker</p>
+                        </div>
+                    </div>
+                    <div class="bullet-item">
+                        <div class="bullet-icon">👔</div>
+                        <div class="bullet-text">
+                            <strong>Pijama Farmacéutica</strong>
+                            <p>Primera capa estéril del uniforme</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="slide" data-slide="4" data-audio="audio5">
+            <div class="slide-content">
+                <h2>2️⃣ Filtro 2: Preparación Final</h2>
+                <p style="margin-bottom: 3rem;">Seis pasos para acceder a producción</p>
+                <div class="equipment-grid">
+                    <div class="equipment-item">
+                        <div class="equipment-icon">🧢</div>
+                        <div class="equipment-name">1. Cofia</div>
+                        <div class="equipment-desc">Cubre el cabello</div>
+                    </div>
+                    <div class="equipment-item">
+                        <div class="equipment-icon">😷</div>
+                        <div class="equipment-name">2. Cubrebocas</div>
+                        <div class="equipment-desc">Nariz y boca</div>
+                    </div>
+                    <div class="equipment-item">
+                        <div class="equipment-icon">🥾</div>
+                        <div class="equipment-name">3. Zapatones</div>
+                        <div class="equipment-desc">Sobre calzado</div>
+                    </div>
+                    <div class="equipment-item">
+                        <div class="equipment-icon">🦺</div>
+                        <div class="equipment-name">4. Overol</div>
+                        <div class="equipment-desc">Segunda capa</div>
+                    </div>
+                    <div class="equipment-item">
+                        <div class="equipment-icon">👞</div>
+                        <div class="equipment-name">5. Calzado</div>
+                        <div class="equipment-desc">Antiestático</div>
+                    </div>
+                    <div class="equipment-item">
+                        <div class="equipment-icon">🧴</div>
+                        <div class="equipment-name">6. Gel</div>
+                        <div class="equipment-desc">Antibacterial</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6 -->
+        <div class="slide" data-slide="5" data-audio="audio6">
+            <div class="slide-content">
+                <h2>🎯 Listo para Producir</h2>
+                <div class="bullet-list">
+                    <div class="bullet-item">
+                        <div class="bullet-icon">🌟</div>
+                        <div class="bullet-text">
+                            <strong>Protocolo Internacional</strong>
+                            <p>Estándares de clase mundial</p>
+                        </div>
+                    </div>
+                    <div class="bullet-item">
+                        <div class="bullet-icon">💊</div>
+                        <div class="bullet-text">
+                            <strong>Producción de Calidad</strong>
+                            <p>Impacto en salud de miles</p>
+                        </div>
+                    </div>
+                    <div class="bullet-item">
+                        <div class="bullet-icon">📈</div>
+                        <div class="bullet-text">
+                            <strong>Desarrollo Profesional</strong>
+                            <p>Crecimiento y estabilidad</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7 -->
+        <div class="slide" data-slide="6" data-audio="audio7">
+            <div class="slide-content">
+                <div class="cta-section">
+                    <h1 style="color: white; margin-bottom: 2rem;">¿Listo para Esta Oportunidad?</h1>
+                    <div class="cta-grid">
+                        <div class="cta-item">
+                            <div class="cta-item-icon">🏭</div>
+                            <h3>Clase Mundial</h3>
+                            <p>Instalaciones modernas</p>
+                        </div>
+                        <div class="cta-item">
+                            <div class="cta-item-icon">📚</div>
+                            <h3>Capacitación</h3>
+                            <p>Desarrollo continuo</p>
+                        </div>
+                        <div class="cta-item">
+                            <div class="cta-item-icon">💼</div>
+                            <h3>Estabilidad</h3>
+                            <p>Sector confiable</p>
+                        </div>
+                    </div>
+                    <button class="cta-button">Aplica Ahora</button>
+                    <div class="contact-info">
+                        <p>📞 [Tu Teléfono]</p>
+                        <p>📧 [Tu Email]</p>
+                        <p>🌐 [Tu Web]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Avatar -->
+    <div class="avatar-container">
+        <div class="avatar" id="avatar">
+            <div class="audio-indicator" id="audioIndicator" style="display: none;"></div>
+            
+            <!-- Cabello -->
+            <div class="avatar-hair"></div>
+            
+            <!-- Ropa -->
+            <div class="avatar-clothing">
+                <div class="avatar-collar"></div>
+            </div>
+            
+            <!-- Cuello -->
+            <div class="avatar-neck"></div>
+            
+            <!-- Cara -->
+            <div class="avatar-face">
+                <!-- Cejas y Ojos -->
+                <div class="avatar-eyes">
+                    <div class="avatar-eye">
+                        <div class="avatar-eyebrow"></div>
+                    </div>
+                    <div class="avatar-eye">
+                        <div class="avatar-eyebrow"></div>
+                    </div>
+                </div>
+                
+                <!-- Nariz -->
+                <div class="avatar-nose"></div>
+                
+                <!-- Mejillas -->
+                <div class="avatar-cheek left"></div>
+                <div class="avatar-cheek right"></div>
+                
+                <!-- Boca -->
+                <div class="avatar-mouth"></div>
+            </div>
+        </div>
+        <div class="audio-controls">
+            <button class="control-btn" id="prev" title="Anterior">⏮</button>
+            <button class="control-btn" id="play" title="Play/Pausa">▶️</button>
+            <button class="control-btn" id="next" title="Siguiente">⏭</button>
+        </div>
+        <div class="volume-control">
+            <span style="color: white; font-size: 1.2rem;">🔊</span>
+            <input type="range" id="volume" min="0" max="100" value="80" class="volume-slider">
+        </div>
+    </div>/div>
+        <div class="volume-control">
+            <span style="color: white; font-size: 1.2rem;">🔊</span>
+            <input type="range" id="volume" min="0" max="100" value="80" class="volume-slider">
+        </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-indicator" id="progress"></div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const avatar = document.getElementById('avatar');
+        const audioIndicator = document.getElementById('audioIndicator');
+        const progress = document.getElementById('progress');
+        const playBtn = document.getElementById('play');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const volumeSlider = document.getElementById('volume');
+        
+        let current = 0;
+        let isPlaying = false;
+        let currentAudio = null;
+
+        // Create progress dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goTo(i);
+            progress.appendChild(dot);
+        });
+
+        // Initialize volume
+        setVolume(80);
+
+        function goTo(i) {
+            if (i < 0 || i >= slides.length) return;
+            
+            // Stop current audio
+            stopCurrentAudio();
+            
+            current = i;
+            slides[i].scrollIntoView({ behavior: 'smooth' });
+            updateDots();
+            
+            // Play audio for this slide if playing
+            if (isPlaying) {
+                playAudioForSlide(i);
+            }
+        }
+
+        function updateDots() {
+            document.querySelectorAll('.progress-dot').forEach((d, i) => {
+                d.classList.toggle('active', i === current);
+            });
+        }
+
+        function playAudioForSlide(index) {
+            const slide = slides[index];
+            const audioId = slide.getAttribute('data-audio');
+            currentAudio = document.getElementById(audioId);
+            
+            if (currentAudio) {
+                // Set volume
+                currentAudio.volume = volumeSlider.value / 100;
+                
+                // Play audio
+                currentAudio.play().catch(err => {
+                    console.error('Error playing audio:', err);
+                    alert('No se pudo reproducir el audio. Asegúrate de que los archivos AUDIO1.MP3 a AUDIO7.MP3 estén en la misma carpeta que este HTML.');
+                });
+                
+                // Show avatar talking
+                avatar.classList.add('talking');
+                audioIndicator.style.display = 'block';
+                
+                // When audio ends, go to next slide
+                currentAudio.onended = () => {
+                    avatar.classList.remove('talking');
+                    audioIndicator.style.display = 'none';
+                    
+                    if (current < slides.length - 1) {
+                        setTimeout(() => goTo(current + 1), 1000);
+                    } else {
+                        // End of presentation
+                        togglePlay();
+                    }
+                };
+            }
+        }
+
+        function stopCurrentAudio() {
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                avatar.classList.remove('talking');
+                audioIndicator.style.display = 'none';
+            }
+        }
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            playBtn.textContent = isPlaying ? '⏸' : '▶️';
+            
+            if (isPlaying) {
+                playAudioForSlide(current);
+            } else {
+                stopCurrentAudio();
+            }
+        }
+
+        function setVolume(value) {
+            if (currentAudio) {
+                currentAudio.volume = value / 100;
+            }
+        }
+
+        // Event listeners
+        playBtn.onclick = togglePlay;
+        prevBtn.onclick = () => {
+            if (current > 0) goTo(current - 1);
+        };
+        nextBtn.onclick = () => {
+            if (current < slides.length - 1) goTo(current + 1);
+        };
+
+        volumeSlider.oninput = (e) => setVolume(e.target.value);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                if (current < slides.length - 1) goTo(current + 1);
+            }
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                if (current > 0) goTo(current - 1);
+            }
+            if (e.key === ' ') {
+                e.preventDefault();
+                togglePlay();
+            }
+        });
+
+        // Update buttons state
+        function updateButtons() {
+            prevBtn.disabled = current === 0;
+            nextBtn.disabled = current === slides.length - 1;
+        }
+
+        // Scroll detection
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const scrollPosition = window.scrollY + window.innerHeight / 2;
+                slides.forEach((slide, index) => {
+                    const slideTop = slide.offsetTop;
+                    const slideBottom = slideTop + slide.offsetHeight;
+                    if (scrollPosition >= slideTop && scrollPosition < slideBottom) {
+                        if (current !== index) {
+                            current = index;
+                            updateDots();
+                            updateButtons();
+                        }
+                    }
+                });
+            }, 100);
+        });
+
+        updateButtons();
+    </script>
+</body>
+</html>

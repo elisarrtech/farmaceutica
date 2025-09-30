@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo de Ingreso - Área Productiva Farmacéutica</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            width: 95%;
+            max-width: 1000px;
+            position: relative;
+        }
+
+        .video-header {
+            background: linear-gradient(135deg, #2c5aa0 0%, #1e3c72 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .video-header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .video-screen {
+            position: relative;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 500px;
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .avatar-section {
+            flex: 0 0 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin-bottom: 15px;
+            position: relative;
+            animation: subtle-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes subtle-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .avatar::after {
+            content: '';
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            border: 3px solid rgba(255, 154, 158, 0.3);
+            border-radius: 50%;
+            animation: pulse-ring 2s ease-out infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(1.2); opacity: 0; }
+        }
+
+        .narrator-name {
+            font-weight: 600;
+            color: #2c5aa0;
+            margin-bottom: 5px;
+        }
+
+        .narrator-title {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+        }
+
+        .speech-bubble {
+            background: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 15px;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
+            color: #555;
+            max-width: 180px;
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 20px;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid white;
+        }
+
+        .content-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .step-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+            display: none;
+        }
+
+        .step-content.active {
+            opacity: 1;
+            transform: translateY(0);
+            display: block;
+        }
+
+        .visual-area {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step-illustration {
+            font-size: 6rem;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .step-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c5aa0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .step-description {
+            font-size: 1.2rem;
+            color: #555;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .visual-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .detail-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border-left: 4px solid #2196f3;
+            transition: transform 0.3s ease;
+        }
+
+        .detail-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .detail-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .detail-title {
+            font-weight: 600;
+            color: #2c5aa0;
+            margin-bottom: 8px;
+        }
+
+        .detail-text {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .controls {
+            background: #2c5aa0;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .control-btn {
+            background: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 24px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .play-pause-btn {
+            background: #4caf50;
+            color: white;
+            font-size: 1.1rem;
+            padding: 15px 30px;
+        }
+
+        .play-pause-btn:hover {
+            background: #45a049;
+        }
+
+        .progress-bar {
+            flex: 1;
+            margin: 0 20px;
+            height: 6px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+            overflow: hidden;
+            min-width: 100px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: white;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .step-counter {
+            color: white;
+            font-weight: 600;
+        }
+
+        .timeline {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 10px;
+            padding: 15px;
+            min-width: 180px;
+            z-index: 10;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            margin-right: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item.active .timeline-dot {
+            background: #4caf50;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .timeline-item.completed .timeline-dot {
+            background: #2196f3;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @media (max-width: 768px) {
+            .video-screen {
+                flex-direction: column;
+                padding: 15px;
+            }
+            
+            .avatar-section {
+                flex: none;
+                width: 100%;
+                flex-direction: row;
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .timeline {
+                position: static;
+                margin-bottom: 15px;
+                width: 100%;
+            }
+            
+            .step-illustration {
+                font-size: 4rem;
+            }
+            
+            .step-title {
+                font-size: 1.5rem;
+            }
+            
+            .controls {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <div class="video-header">
+            <h1>🏭 Protocolo de Ingreso - Área Productiva Farmacéutica</h1>
+        </div>
+        
+        <div class="video-screen">
+            <div class="timeline">
+                <div class="timeline-item active">
+                    <div class="timeline-dot"></div>
+                    <span>Recepción</span>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <span>Primer Filtro</span>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <span>Segundo Filtro</span>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <span>Acceso Final</span>
+                </div>
+            </div>
+
+            <div class="avatar-section">
+                <div class="avatar">👩‍⚕️</div>
+                <div class="narrator-name">Dra. María González</div>
+                <div class="narrator-title">Especialista en Bioseguridad Farmacéutica</div>
+                <div class="speech-bubble" id="narratorSpeech">
+                    ¡Hola! Soy la Dra. González y te guiaré paso a paso por el protocolo de ingreso seguro.
+                </div>
+            </div>
+
+            <div class="content-section">
+                <!-- Step 1 -->
+                <div class="step-content active" id="step-1">
+                    <div class="visual-area">
+                        <div class="step-illustration">🛡️</div>
+                        <div class="step-title">Recepción del Equipo de Seguridad</div>
+                        <div class="step-description">
+                            Iniciamos nuestro protocolo en el área de recepción, donde cada trabajador recibe su equipo de protección personal completo.
+                        </div>
+                        <div class="visual-details">
+                            <div class="detail-card">
+                                <div class="detail-icon">👔</div>
+                                <div class="detail-title">Pijama Estéril</div>
+                                <div class="detail-text">Primera capa del uniforme, fabricada con material antimicrobiano</div>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-icon">🦺</div>
+                                <div class="detail-title">Overol de Seguridad</div>
+                                <div class="detail-text">Protección externa con cierre hermético y material resistente</div>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-icon">📋</div>
+                                <div class="detail-title">Lista de Verificación</div>
+                                <div class="detail-text">Cada elemento es verificado antes de la entrega al personal</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-content" id="step-2">
+                    <div class="visual-area">
+                        <div class="step-illustration">🚿</div>
+                        <div class="step-title">Primer Filtro - Cambio de Vestimenta</div>
+                        <div class="step-description">
+                            En esta zona de transición, el personal debe despojarse completamente de su ropa de calle para evitar cualquier contaminación externa.
+                        </div>
+                        <div class="visual-details">
+                            <div class="detail-card">
+                                <div class="detail-icon">👕</div>
+                                <div class="detail-title">Ropa de Calle</div>
+                                <div class="detail-text">Se retira completamente y se guarda en casilleros individuales</div>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-icon">🔒</div>
+                                <div class="detail-title">Casillero Personal</div>
+                                <div class="detail-text">Espacio seguro y limpio para guardar pertenencias personales</div>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-icon">🩱</div>
+                                <div class="detail-title">Pijama Estéril</div>
+                                <div class="detail-text">Se coloca como primera barrera de protección sobre la piel</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-content" id="step-3">
+                    <div class="visual-area">
+                        <div class="step-illustration">🥽</div>
+                        <div class="step-title">Segundo Filtro - Equipamiento Completo</div>
+                        <div class="step-description">
+                            Aquí se completa la vestimenta con todos los elementos de protección personal necesarios para el área productiva.
+                        </div>
+                        <div class="visual-details">
+                            <div class="detail-card">
+                                <div class="detail-icon">👒</div>
+                                <div class="detail-title">Cofia Protectora</div>
+                                <div class="detail-text">Cubre completamente el cabello para evitar contaminación</div>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-icon">😷</div>
+                                <div class="detail-title">Cubrebocas N95</div>
+                                <div class="detail-text">Filtración de alta eficiencia para protección respiratoria</div>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-icon">🧤</div>
+                                <div class="detail-title">Zapatones Estériles</div>
+                                <div class="detail-text">Cubren el calzado para mantener la esterilidad del suelo</div>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-icon">🦺</div>
+                                <div class="detail-title">Overol Final</div>
+                                <div class="detail-text">Capa externa que sella completamente el uniforme</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step-content" id="step-4">
+                    <div class="visual-area">
+                        <div class="step-illustration">✨</div>
+                        <div class="step-title">Acceso Final - Desinfección Total</div>
+                        <div class="step-description">
+                            El último paso antes del ingreso incluye la desinfección completa de manos y la verificación final del equipo.
+                        </div>
+                        <div class="visual-details">
+                            <div class="detail-card">
+                                <div class="detail-icon">🧴</div>
+                                <div class="detail-title">Gel Antibacterial</div>
+                                <div class="detail-text">Aplicación generosa en manos por 30 segundos mínimo</div>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-icon">✅</div>
+                                <div class="detail-title">Inspección Final</div>
+                                <div class="detail-text">Verificación de que todo el equipo esté correctamente colocado</div>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-icon">🚪</div>
+                                <div class="detail-title">Acceso Autorizado</div>
+                                <div class="detail-text">Ingreso seguro al área de producción farmacéutica</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn" id="prevBtn" disabled>
+                ⏮️ Anterior
+            </button>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            
+            <button class="control-btn play-pause-btn" id="playPauseBtn">
+                ▶️ Reproducir
+            </button>
+            
+            <button class="control-btn" id="nextBtn">
+                Siguiente ⏭️
+            </button>
+            
+            <div class="step-counter">
+                <span id="currentStep">1</span> / 4
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let isPlaying = false;
+        let autoPlayInterval;
+        const totalSteps = 4;
+
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const progressFill = document.getElementById('progressFill');
+        const currentStepSpan = document.getElementById('currentStep');
+        const narratorSpeech = document.getElementById('narratorSpeech');
+
+        const narratorTexts = [
+            "¡Hola! Soy la Dra. González y te guiaré paso a paso por el protocolo de ingreso seguro.",
+            "Ahora veremos cómo recibir y verificar todo el equipo de protección personal necesario.",
+            "En el primer filtro, es crucial cambiar completamente la vestimenta para evitar contaminación.",
+            "El segundo filtro es donde completamos nuestro equipamiento con todos los elementos de protección.",
+            "Finalmente, la desinfección y verificación nos aseguran un ingreso 100% seguro al área productiva."
+        ];
+
+        function updateStep(stepNumber) {
+            // Hide all steps
+            document.querySelectorAll('.step-content').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show current step
+            document.getElementById(`step-${stepNumber}`).classList.add('active');
+            
+            // Update timeline
+            document.querySelectorAll('.timeline-item').forEach((item, index) => {
+                item.classList.remove('active', 'completed');
+                if (index + 1 === stepNumber) {
+                    item.classList.add('active');
+                } else if (index + 1 < stepNumber) {
+                    item.classList.add('completed');
+                }
+            });
+            
+            // Update narrator speech
+            narratorSpeech.textContent = narratorTexts[stepNumber];
+            
+            // Update progress bar
+            const progress = (stepNumber / totalSteps) * 100;
+            progressFill.style.width = progress + '%';
+            
+            // Update counter
+            currentStepSpan.textContent = stepNumber;
+            
+            // Update button states
+            prevBtn.disabled = stepNumber === 1;
+            nextBtn.disabled = stepNumber === totalSteps;
+            
+            currentStep = stepNumber;
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps) {
+                updateStep(currentStep + 1);
+            } else if (isPlaying) {
+                // Restart from beginning when auto-playing
+                updateStep(1);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                updateStep(currentStep - 1);
+            }
+        }
+
+        function togglePlayPause() {
+            if (isPlaying) {
+                // Pause
+                clearInterval(autoPlayInterval);
+                playPauseBtn.innerHTML = '▶️ Reproducir';
+                isPlaying = false;
+            } else {
+                // Play
+                playPauseBtn.innerHTML = '⏸️ Pausar';
+                isPlaying = true;
+                autoPlayInterval = setInterval(() => {
+                    nextStep();
+                }, 6000); // Change step every 6 seconds for more reading time
+            }
+        }
+
+        // Event listeners
+        prevBtn.addEventListener('click', prevStep);
+        nextBtn.addEventListener('click', nextStep);
+        playPauseBtn.addEventListener('click', togglePlayPause);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevStep();
+            if (e.key === 'ArrowRight') nextStep();
+            if (e.key === ' ') {
+                e.preventDefault();
+                togglePlayPause();
+            }
+        });
+
+        // Initialize
+        updateStep(1);
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98722a0ee4867a65',t:'MTc1OTIxODk5Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo Farmacéutico - Video Profesional</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a1628;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        .slide {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem 2rem;
+            position: relative;
+            background: linear-gradient(135deg, #0a1628 0%, #1a2845 100%);
+        }
+        
+        .slide-content {
+            max-width: 1400px;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+        }
+        
+        .slide h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 20px rgba(0, 174, 239, 0.5);
+            line-height: 1.2;
+        }
+        
+        .slide h2 {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            color: #00aeef;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        .slide p {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: #e0e6ed;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        .bullet-list {
+            text-align: left;
+            max-width: 1100px;
+            margin: 2rem auto;
+            width: 100%;
+        }
+        
+        .bullet-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: rgba(0, 174, 239, 0.1);
+            border-left: 4px solid #00aeef;
+            border-radius: 8px;
+            transition: transform 0.3s;
+        }
+        
+        .bullet-item:hover {
+            transform: translateX(10px);
+            background: rgba(0, 174, 239, 0.15);
+        }
+        
+        .bullet-icon {
+            min-width: 50px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #00aeef, #0088cc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .bullet-text { flex: 1; }
+        
+        .bullet-text strong {
+            color: #00aeef;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .bullet-text p {
+            margin-top: 0.5rem;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+        }
+        
+        .process-diagram {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem auto;
+            max-width: 1200px;
+        }
+        
+        .process-step {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 2px solid #00aeef;
+            transition: transform 0.3s;
+        }
+        
+        .process-step:hover {
+            transform: translateY(-10px);
+            background: rgba(0, 174, 239, 0.15);
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00aeef, #0088cc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .step-title {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: #00aeef;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .step-desc {
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
+            color: #e0e6ed;
+        }
+        
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin: 3rem auto;
+            max-width: 1200px;
+        }
+        
+        .equipment-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid rgba(0, 174, 239, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .equipment-item:hover {
+            border-color: #00aeef;
+            background: rgba(0, 174, 239, 0.1);
+            transform: translateY(-8px);
+        }
+        
+        .equipment-icon { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1rem; }
+        .equipment-name { font-size: clamp(1rem, 2vw, 1.2rem); color: #00aeef; margin-bottom: 0.8rem; font-weight: 600; }
+        .equipment-desc { font-size: clamp(0.85rem, 1.5vw, 0.95rem); color: #e0e6ed; }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #00aeef, #0088cc);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 2rem auto;
+            max-width: 1200px;
+        }
+        
+        .cta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .cta-item { padding: 1.5rem; text-align: center; }
+        .cta-item-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .cta-item h3 { color: white; font-size: clamp(1.2rem, 2.5vw, 1.5rem); margin-bottom: 0.8rem; }
+        .cta-item p { color: rgba(255,255,255,0.9); font-size: clamp(0.9rem, 1.5vw, 1rem); }
+        
+        .cta-button {
+            background: white;
+            color: #0088cc;
+            padding: 1.2rem 3rem;
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1.5rem;
+            transition: transform 0.3s;
+        }
+        
+        .cta-button:hover { transform: scale(1.05); }
+        
+        .contact-info { margin-top: 3rem; color: white; font-size: clamp(1rem, 2vw, 1.3rem); }
+        .contact-info p { margin: 0.8rem 0; }
+        
+        .logo-corner {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+            color: #00aeef;
+            font-weight: bold;
+            z-index: 10;
+        }
+        
+        /* Avatar */
+        .avatar-container {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .speech-bubble {
+            background: white;
+            color: #0a1628;
+            padding: 1.5rem;
+            border-radius: 15px;
+            max-width: 400px;
+            min-width: 300px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .speech-bubble.active { opacity: 1; transform: translateY(0); }
+        
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            right: 30px;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid white;
+        }
+        
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00aeef, #0088cc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            box-shadow: 0 10px 40px rgba(0, 174, 239, 0.5);
+            border: 4px solid #fff;
+            cursor: pointer;
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .avatar:hover { transform: scale(1.05); }
+        .avatar.talking { animation: talking 0.5s ease-in-out infinite; }
+        
+        @keyframes talking {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .avatar-eyes {
+            position: absolute;
+            top: 45px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+        
+        .avatar-eye {
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 50%;
+        }
+        
+        .avatar-mouth {
+            position: absolute;
+            bottom: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 20px;
+            border: 3px solid #fff;
+            border-top: none;
+            border-radius: 0 0 40px 40px;
+        }
+        
+        .avatar.talking .avatar-mouth {
+            animation: mouth-move 0.5s ease-in-out infinite;
+        }
+        
+        @keyframes mouth-move {
+            0%, 100% { height: 20px; }
+            50% { height: 30px; }
+        }
+        
+        .audio-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .control-btn {
+            background: linear-gradient(135deg, #00aeef, #0088cc);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+        
+        .control-btn:hover { transform: scale(1.1); }
+        
+        .progress-indicator {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.8rem;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+        }
+        
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .progress-dot.active {
+            background: #00aeef;
+            transform: scale(1.3);
+        }
+        
+        @media (max-width: 768px) {
+            .avatar-container { bottom: 6rem; right: 1rem; }
+            .avatar { width: 100px; height: 100px; font-size: 50px; }
+            .speech-bubble { max-width: 250px; min-width: 200px; padding: 1rem; font-size: 0.85rem; }
+            .avatar-mouth { bottom: 25px; width: 30px; height: 15px; }
+            .avatar-eyes { top: 30px; gap: 15px; }
+            .avatar-eye { width: 8px; height: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <!-- Slide 1 -->
+        <div class="slide" data-slide="0">
+            <div class="logo-corner">🏥 Reclutamiento Profesional</div>
+            <div class="slide-content">
+                <h1>Protocolo de Ingreso a Áreas Productivas</h1>
+                <h2>Empresa Farmacéutica de Excelencia</h2>
+                <p style="max-width: 800px; margin: 2rem auto;">Conoce el proceso que garantiza los más altos estándares de bioseguridad</p>
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide" data-slide="1">
+            <div class="slide-content">
+                <h2>🎯 Paso 1: Recepción</h2>
+                <p style="font-size: clamp(1.2rem, 2.5vw, 1.8rem); margin-bottom: 3rem;">Al llegar, recibirás tu equipo de seguridad completo</p>
+                <div class="bullet-list">
+                    <div class="bullet-item">
+                        <div class="bullet-icon">👔</div>
+                        <div class="bullet-text">
+                            <strong>Uniforme Estéril Completo</strong>
+                            <p>Pijama y overol según normativas internacionales</p>
+                        </div>
+                    </div>
+                    <div class="bullet-item">
+                        <div class="bullet-icon">🛡️</div>
+                        <div class="bullet-text">
+                            <strong>Equipo de Protección</strong>
+                            <p>Material certificado GMP para tu seguridad</p>
+                        </div>
+                    </div>
+                    <div class="bullet-item">
+                        <div class="bullet-icon">👨‍⚕️</div>
+                        <div class="bullet-text">
+                            <strong>Asistencia Profesional</strong>
+                            <p>Personal capacitado te guiará paso a paso</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide" data-slide="2">
+            <div class="slide-content">
+                <h2>🔒 Sistema de Doble Filtro</h2>
+                <p style="font-size: clamp(1.1rem, 2vw, 1.6rem); margin-bottom: 3rem;">Arquitectura certificada de protección máxima</p>
+                <div class="process-diagram">
+                    <div class="process-step" style="background: rgba(128, 128, 128, 0.2);">
+                        <div class="step-number">🚪</div>
+                        <div class="step-title">Entrada</div>
+                        <div class="step-desc">Acceso exterior</div>
+                    </div>
+                    <div class="process-step" style="background: rgba(0, 174, 239, 0.15);">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Filtro 1</div>
+                        <div class="step-desc">Primera barrera</div>
+                    </div>
+                    <div class="process-step" style="background: rgba(0, 136, 204, 0.2);">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Filtro 2</div>
+                        <div class="step-desc">Segunda barrera</div>
+                    </div>
+                    <div class="process-step" style="background: rgba(76, 175, 80, 0.2);">
+                        <div class="step-number">✓</div>
+                        <div class="step-title">Producción</div>
+                        <div class="step-desc">Área estéril</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide" data-slide="3">
+            <div class="slide-content">
+                <h2>1️⃣ Filtro 1: Transición</h2>
+                <div class="bullet-list">
+                    <div class="bullet-item">
+                        <div class="bullet-icon">👕</div>
+                        <div class="bullet-text">
+                            <strong>Retira Ropa de Calle</strong>
+                            <p>Separa tu vestimenta del área controlada</p>
+                        </div>
+                    </div>
+                    <div class="bullet-item">
+                        <div class="bullet-icon">🔐</div>
+                        <div class="bullet-text">
+                            <strong>Guarda en Casillero</strong>
+                            <p>Pertenencias seguras en tu locker</p>
+                        </div>
+                    </div>
+                    <div class="bullet-item">
+                        <div class="bullet-icon">👔</div>
+                        <div class="bullet-text">
+                            <strong>Pijama Farmacéutica</strong>
+                            <p>Primera capa estéril del uniforme</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="slide" data-slide="4">
+            <div class="slide-content">
+                <h2>2️⃣ Filtro 2: Preparación Final</h2>
+                <p style="margin-bottom: 3rem;">Seis pasos para acceder a producción</p>
+                <div class="equipment-grid">
+                    <div class="equipment-item">
+                        <div class="equipment-icon">🧢</div>
+                        <div class="equipment-name">1. Cofia</div>
+                        <div class="equipment-desc">Cubre el cabello</div>
+                    </div>
+                    <div class="equipment-item">
+                        <div class="equipment-icon">😷</div>
+                        <div class="equipment-name">2. Cubrebocas</div>
+                        <div class="equipment-desc">Nariz y boca</div>
+                    </div>
+                    <div class="equipment-item">
+                        <div class="equipment-icon">🥾</div>
+                        <div class="equipment-name">3. Zapatones</div>
+                        <div class="equipment-desc">Sobre calzado</div>
+                    </div>
+                    <div class="equipment-item">
+                        <div class="equipment-icon">🦺</div>
+                        <div class="equipment-name">4. Overol</div>
+                        <div class="equipment-desc">Segunda capa</div>
+                    </div>
+                    <div class="equipment-item">
+                        <div class="equipment-icon">👞</div>
+                        <div class="equipment-name">5. Calzado</div>
+                        <div class="equipment-desc">Antiestático</div>
+                    </div>
+                    <div class="equipment-item">
+                        <div class="equipment-icon">🧴</div>
+                        <div class="equipment-name">6. Gel</div>
+                        <div class="equipment-desc">Antibacterial</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6 -->
+        <div class="slide" data-slide="5">
+            <div class="slide-content">
+                <h2>🎯 Listo para Producir</h2>
+                <div class="bullet-list">
+                    <div class="bullet-item">
+                        <div class="bullet-icon">🌟</div>
+                        <div class="bullet-text">
+                            <strong>Protocolo Internacional</strong>
+                            <p>Estándares de clase mundial</p>
+                        </div>
+                    </div>
+                    <div class="bullet-item">
+                        <div class="bullet-icon">💊</div>
+                        <div class="bullet-text">
+                            <strong>Producción de Calidad</strong>
+                            <p>Impacto en salud de miles</p>
+                        </div>
+                    </div>
+                    <div class="bullet-item">
+                        <div class="bullet-icon">📈</div>
+                        <div class="bullet-text">
+                            <strong>Desarrollo Profesional</strong>
+                            <p>Crecimiento y estabilidad</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7 -->
+        <div class="slide" data-slide="6">
+            <div class="slide-content">
+                <div class="cta-section">
+                    <h1 style="color: white; margin-bottom: 2rem;">¿Listo para Esta Oportunidad?</h1>
+                    <div class="cta-grid">
+                        <div class="cta-item">
+                            <div class="cta-item-icon">🏭</div>
+                            <h3>Clase Mundial</h3>
+                            <p>Instalaciones modernas</p>
+                        </div>
+                        <div class="cta-item">
+                            <div class="cta-item-icon">📚</div>
+                            <h3>Capacitación</h3>
+                            <p>Desarrollo continuo</p>
+                        </div>
+                        <div class="cta-item">
+                            <div class="cta-item-icon">💼</div>
+                            <h3>Estabilidad</h3>
+                            <p>Sector confiable</p>
+                        </div>
+                    </div>
+                    <button class="cta-button">Aplica Ahora</button>
+                    <div class="contact-info">
+                        <p>📞 [Tu Teléfono]</p>
+                        <p>📧 [Tu Email]</p>
+                        <p>🌐 [Tu Web]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Avatar -->
+    <div class="avatar-container">
+        <div class="speech-bubble" id="bubble"></div>
+        <div class="avatar" id="avatar">
+            <div class="avatar-eyes">
+                <div class="avatar-eye"></div>
+                <div class="avatar-eye"></div>
+            </div>
+            👨‍⚕️
+            <div class="avatar-mouth"></div>
+        </div>
+        <div class="audio-controls">
+            <button class="control-btn" id="prev">⏮</button>
+            <button class="control-btn" id="play">▶️</button>
+            <button class="control-btn" id="next">⏭</button>
+        </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-indicator" id="progress"></div>
+
+    <script>
+        const narrations = [
+            "Bienvenidos al protocolo de ingreso farmacéutico. Este proceso garantiza bioseguridad máxima.",
+            "Paso 1: Recepción. Recibirás uniforme estéril completo y equipo certificado GMP.",
+            "Sistema de doble filtro certificado. Cada filtro es una barrera bajo normativas FDA.",
+            "Filtro 1: Retira ropa, guarda en casillero y coloca pijama farmacéutica estéril.",
+            "Filtro 2: Seis pasos - cofia, cubrebocas, zapatones, overol, calzado y gel.",
+            "Protocolo completado. Ahora formas parte de un equipo de clase mundial.",
+            "¿Listo? Únete a instalaciones modernas con capacitación continua. ¡Contacta hoy!"
+        ];
+
+        const slides = document.querySelectorAll('.slide');
+        const avatar = document.getElementById('avatar');
+        const bubble = document.getElementById('bubble');
+        const progress = document.getElementById('progress');
+        let current = 0;
+        let isPlaying = false;
+        let interval;
+
+        // Create dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goTo(i);
+            progress.appendChild(dot);
+        });
+
+        function goTo(i) {
+            if (i < 0 || i >= slides.length) return;
+            current = i;
+            slides[i].scrollIntoView({ behavior: 'smooth' });
+            updateDots();
+            showText();
+        }
+
+        function updateDots() {
+            document.querySelectorAll('.progress-dot').forEach((d, i) => {
+                d.classList.toggle('active', i === current);
+            });
+        }
+
+        function showText() {
+            bubble.textContent = narrations[current];
+            bubble.classList.add('active');
+            avatar.classList.add('talking');
+            setTimeout(() => avatar.classList.remove('talking'), 3000);
+        }
+
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            document.getElementById('play').textContent = isPlaying ? '⏸' : '▶️';
+            if (isPlaying) {
+                interval = setInterval(() => {
+                    if (current < slides.length - 1) goTo(current + 1);
+                    else togglePlay();
+                }, 10000);
+            } else {
+                clearInterval(interval);
+            }
+        }
+
+        document.getElementById('prev').onclick = () => goTo(current - 1);
+        document.getElementById('play').onclick = togglePlay;
+        document.getElementById('next').onclick = () => goTo(current + 1);
+        avatar.onclick = () => bubble.classList.toggle('active');
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo(current + 1);
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo(current - 1);
+            if (e.key === ' ') { e.preventDefault(); togglePlay(); }
+        });
+
+        showText();
+    </script>
+</body>
+</html>

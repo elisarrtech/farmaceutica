@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo de Ingreso Farmacéutico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0a1628;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        .video-container {
+            width: 100%;
+            max-width: 100vw;
+            margin: 0 auto;
+        }
+        
+        .slide {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem 2rem;
+            position: relative;
+            background: linear-gradient(135deg, #0a1628 0%, #1a2845 100%);
+        }
+        
+        .slide-content {
+            max-width: 1400px;
+            width: 100%;
+            text-align: center;
+            z-index: 2;
+        }
+        
+        .slide h1 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            color: #fff;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 20px rgba(0, 174, 239, 0.5);
+            line-height: 1.2;
+        }
+        
+        .slide h2 {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            color: #00aeef;
+            margin-bottom: 2rem;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        .slide p {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            color: #e0e6ed;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        
+        .bullet-list {
+            text-align: left;
+            max-width: 1100px;
+            margin: 2rem auto;
+            width: 100%;
+        }
+        
+        .bullet-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: rgba(0, 174, 239, 0.1);
+            border-left: 4px solid #00aeef;
+            border-radius: 8px;
+            transition: transform 0.3s, background 0.3s;
+        }
+        
+        .bullet-item:hover {
+            transform: translateX(10px);
+            background: rgba(0, 174, 239, 0.15);
+        }
+        
+        .bullet-icon {
+            min-width: 50px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #00aeef, #0088cc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .bullet-text {
+            flex: 1;
+        }
+        
+        .bullet-text strong {
+            color: #00aeef;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .bullet-text p {
+            margin-top: 0.5rem;
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+        }
+        
+        .process-diagram {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 3rem auto;
+            max-width: 1200px;
+        }
+        
+        .process-step {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 2px solid #00aeef;
+            position: relative;
+            transition: transform 0.3s, background 0.3s;
+        }
+        
+        .process-step:hover {
+            transform: translateY(-10px);
+            background: rgba(0, 174, 239, 0.15);
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #00aeef, #0088cc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .step-title {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: #00aeef;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .step-desc {
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
+            color: #e0e6ed;
+            line-height: 1.6;
+        }
+        
+        .filter-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin: 2rem auto;
+            max-width: 1100px;
+            width: 100%;
+        }
+        
+        .filter-box {
+            background: linear-gradient(135deg, rgba(0, 174, 239, 0.1), rgba(0, 136, 204, 0.1));
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 2px solid #00aeef;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .filter-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 174, 239, 0.3);
+        }
+        
+        .filter-title {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            color: #00aeef;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-badge {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #00aeef, #0088cc);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .equipment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin: 3rem auto;
+            max-width: 1200px;
+        }
+        
+        .equipment-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid rgba(0, 174, 239, 0.3);
+            transition: all 0.3s;
+        }
+        
+        .equipment-item:hover {
+            border-color: #00aeef;
+            background: rgba(0, 174, 239, 0.1);
+            transform: translateY(-8px);
+        }
+        
+        .equipment-icon {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+        }
+        
+        .equipment-name {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: #00aeef;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .equipment-desc {
+            font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+            color: #e0e6ed;
+            line-height: 1.5;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, #00aeef, #0088cc);
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 2rem auto;
+            text-align: center;
+            max-width: 1200px;
+        }
+        
+        .cta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .cta-item {
+            padding: 1.5rem;
+        }
+        
+        .cta-item-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-item h3 {
+            color: white;
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            margin-bottom: 0.8rem;
+        }
+        
+        .cta-item p {
+            color: rgba(255,255,255,0.9);
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
+        }
+        
+        .cta-button {
+            background: white;
+            color: #0088cc;
+            padding: 1.2rem 3rem;
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .contact-info {
+            margin-top: 3rem;
+            color: white;
+            font-size: clamp(1rem, 2vw, 1.3rem);
+        }
+        
+        .contact-info p {
+            margin: 0.8rem 0;
+            color: white;
+        }
+        
+        .background-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(0, 174, 239, 0.3) 35px, rgba(0, 174, 239, 0.3) 70px);
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .logo-corner {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+            color: #00aeef;
+            font-weight: bold;
+            z-index: 10;
+            text-align: right;
+        }
+        
+        .progress-indicator {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.8rem;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+        }
+        
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .progress-dot.active {
+            background: #00aeef;
+            transform: scale(1.3);
+        }
+        
+        .progress-dot:hover {
+            background: #00aeef;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 2rem 1rem;
+                min-height: auto;
+            }
+            
+            .bullet-icon {
+                min-width: 40px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+                margin-right: 1rem;
+            }
+            
+            .process-diagram {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .equipment-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .filter-title {
+                font-size: 1.5rem;
+            }
+            
+            .cta-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .logo-corner {
+                font-size: 0.8rem;
+                top: 1rem;
+                right: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .slide {
+                padding: 1.5rem 0.8rem;
+            }
+            
+            .bullet-item {
+                padding: 1rem;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .bullet-icon {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .filter-box {
+                padding: 1.5rem;
+            }
+            
+            .equipment-item {
+                padding: 1.5rem 1rem;
+            }
+            
+            .cta-section {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <!-- Slide 1: Portada -->
+        <div class="slide" data-slide="0">
+            <div class="background-pattern"></div>
+            <div class="logo-corner">🏥 Reclutamiento<br>Profesional</div>
+            <div class="slide-content">
+                <h1>Protocolo de Ingreso a Áreas Productivas</h1>
+                <h2>Empresa Farmacéutica de Excelencia</h2>
+                <p style="max-width: 800px; margin: 2rem auto;">Conoce el proceso profesional que garantiza los más altos estándares de bioseguridad y calidad en la industria farmacéutica</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: Recepción -->
+        <div class="slide" data-slide="1">
+            <div class="background-pattern"></div>
+            <div class="slide-content">
+                <h2>🎯 Paso 1: Recepción</h2>
+                <p style="font-size: clamp(1.2rem, 2.5vw, 1.8rem); margin-bottom: 3rem; max-width: 900px; margin-left: auto; margin-right: auto;">Al llegar, recibirás tu equipo de seguridad completo</p>
+                
+                <div class="bullet-list">
+                    <div class="bullet-item">
+                        <div class="bullet-icon">👔</div>
+                        <div class="bullet-text">
+                            <strong>Uniforme Estéril Completo</strong>
+                            <p>Se te proporcionará pijama farmacéutica y overol de protección de acuerdo a normativas internacionales</p>
+                        </div>
+                    </div>
+                    <div class="bullet-item">
+                        <div class="bullet-icon">🛡️</div>
+                        <div class="bullet-text">
+                            <strong>Equipo de Protección Personal</strong>
+                            <p>Todo el material cumple normativas GMP (Good Manufacturing Practices) garantizando tu seguridad</p>
+                        </div>
+                    </div>
+                    <div class="bullet-item">
+                        <div class="bullet-icon">👨‍⚕️</div>
+                        <div class="bullet-text">
+                            <strong>Asistencia Profesional</strong>
+                            <p>Personal capacitado te guiará paso a paso en tu primer día de trabajo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Sistema de Doble Filtro -->
+        <div class="slide" data-slide="2">
+            <div class="background-pattern"></div>
+            <div class="slide-content">
+                <h2>🔒 Sistema de Doble Filtro</h2>
+                <p style="font-size: clamp(1.1rem, 2vw, 1.6rem); margin-bottom: 3rem;">Arquitectura certificada de protección máxima</p>
+                
+                <div class="process-diagram">
+                    <div class="process-step" style="background: rgba(128, 128, 128, 0.2);">
+                        <div class="step-number">🚪</div>
+                        <div class="step-title">Entrada</div>
+                        <div class="step-desc">Acceso desde exterior</div>
+                    </div>
+                    
+                    <div class="process-step" style="background: rgba(0, 174, 239, 0.15);">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Filtro 1</div>
+                        <div class="step-desc">Primera barrera de contaminación</div>
+                    </div>
+                    
+                    <div class="process-step" style="background: rgba(0, 136, 204, 0.2);">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Filtro 2</div>
+                        <div class="step-desc">Segunda barrera de protección</div>
+                    </div>
+                    
+                    <div class="process-step" style="background: rgba(76, 175, 80, 0.2);">
+                        <div class="step-number">✓</div>
+                        <div class="step-title">Producción</div>
+                        <div class="step-desc">Área estéril controlada</div>
+                    </div>
+                </div>
+                
+                <div class="bullet-list" style="max-width: 900px;">
+                    <div class="bullet-item">
+                        <div class="bullet-icon">📋</div>
+                        <div class="bullet-text">
+                            <strong>Normativas FDA y COFEPRIS</strong>
+                            <p>Sistema diseñado bajo estándares internacionales de bioseguridad farmacéutica</p>
+                        </div>
+                    </div>
+                    <div class="bullet-item">
+                        <div class="bullet-icon">🔄</div>
+                        <div class="bullet-text">
+                            <strong>Flujo Unidireccional</strong>
+                            <p>Proceso controlado que elimina el riesgo de contaminación cruzada</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Filtro 1 -->
+        <div class="slide" data-slide="3">
+            <div class="background-pattern"></div>
+            <div class="slide-content">
+                <h2>1️⃣ Filtro 1: Transición del Exterior</h2>
+                <p style="margin-bottom: 2rem;">Primera fase de preparación para ingreso al área controlada</p>
+                
+                <div class="filter-container">
+                    <div class="filter-box">
+                        <div class="filter-title">
+                            <div class="filter-badge">1</div>
+                            <span>Primera Fase de Preparación</span>
+                        </div>
+                        
+                        <div class="bullet-list" style="margin-top: 2rem;">
+                            <div class="bullet-item">
+                                <div class="bullet-icon">👕</div>
+                                <div class="bullet-text">
+                                    <strong>Retira Ropa de Calle</strong>
+                                    <p>Separa completamente tu vestimenta exterior del área controlada</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bullet-item">
+                                <div class="bullet-icon">🔐</div>
+                                <div class="bullet-text">
+                                    <strong>Guarda en Casillero Asignado</strong>
+                                    <p>Tus pertenencias personales permanecen seguras en tu locker</p>
+                                </div>
+                            </div>
+                            
+                            <div class="bullet-item">
+                                <div class="bullet-icon">👔</div>
+                                <div class="bullet-text">
+                                    <strong>Colócate la Pijama Farmacéutica</strong>
+                                    <p>Primera capa estéril del uniforme - base para el siguiente paso</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 2rem; font-size: clamp(1rem, 2vw, 1.3rem); color: #00aeef;">
+                    ⚡ Esta zona de transición elimina cualquier contaminante externo
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 5: Filtro 2 -->
+        <div class="slide" data-slide="4">
+            <div class="background-pattern"></div>
+            <div class="slide-content">
+                <h2>2️⃣ Filtro 2: Preparación Final</h2>
+                <p style="font-size: clamp(1.1rem, 2vw, 1.5rem); margin-bottom: 3rem;">Seis pasos para acceder a producción de forma segura</p>
+                
+                <div class="equipment-grid">
+                    <div class="equipment-item">
+                        <div class="equipment-icon">🧢</div>
+                        <div class="equipment-name">1. Cofia</div>
+                        <div class="equipment-desc">Cubre completamente el cabello</div>
+                    </div>
+                    
+                    <div class="equipment-item">
+                        <div class="equipment-icon">😷</div>
+                        <div class="equipment-name">2. Cubrebocas</div>
+                        <div class="equipment-desc">Ajuste correcto sobre nariz y boca</div>
+                    </div>
+                    
+                    <div class="equipment-item">
+                        <div class="equipment-icon">🥾</div>
+                        <div class="equipment-name">3. Zapatones</div>
+                        <div class="equipment-desc">Protección sobre calzado temporal</div>
+                    </div>
+                    
+                    <div class="equipment-item">
+                        <div class="equipment-icon">🦺</div>
+                        <div class="equipment-name">4. Overol</div>
+                        <div class="equipment-desc">Segunda capa sobre pijama</div>
+                    </div>
+                    
+                    <div class="equipment-item">
+                        <div class="equipment-icon">👞</div>
+                        <div class="equipment-name">5. Calzado de Seguridad</div>
+                        <div class="equipment-desc">Zapatos especializados antiestáticos</div>
+                    </div>
+                    
+                    <div class="equipment-item">
+                        <div class="equipment-icon">🧴</div>
+                        <div class="equipment-name">6. Gel Antibacterial</div>
+                        <div class="equipment-desc">Sanitización de manos al finalizar</div>
+                    </div>
+                </div>
+                
+                <p style="margin-top: 2rem; font-size: clamp(1rem, 2vw, 1.3rem); color: #4caf50;">
+                    ✅ Proceso completo en 5-7 minutos una vez familiarizado
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 6: Producción -->
+        <div class="slide" data-slide="5">
+            <div class="background-pattern"></div>
+            <div class="slide-content">
+                <h2>🎯 Listo para Producir con Excelencia</h2>
+                
+                <div class="bullet-list">
+                    <div class="bullet-item">
+                        <div class="bullet-icon">🌟</div>
+                        <div class="bullet-text">
+                            <strong>Protocolo Internacional Completado</strong>
+                            <p>Has seguido estándares farmacéuticos de clase mundial reconocidos globalmente</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bullet-item">
+                        <div class="bullet-icon">💊</div>
+                        <div class="bullet-text">
+                            <strong>Producción de Medicamentos de Calidad</strong>
+                            <p>Formas parte de un equipo que impacta positivamente la salud de miles de personas</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bullet-item">
+                        <div class="bullet-icon">📈</div>
+                        <div class="bullet-text">
+                            <strong>Desarrollo Profesional Continuo</strong>
+                            <p>Este entorno profesional impulsa tu crecimiento y estabilidad laboral a largo plazo</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bullet-item">
+                        <div class="bullet-icon">🛡️</div>
+                        <div class="bullet-text">
+                            <strong>Empresa Comprometida</strong>
+                            <p>Inversión constante en tu seguridad, capacitación y bienestar personal</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Call to Action -->
+        <div class="slide" data-slide="6">
+            <div class="background-pattern"></div>
+            <div class="slide-content">
+                <div class="cta-section">
+                    <h1 style="color: white; margin-bottom: 2rem;">¿Listo para Esta Oportunidad?</h1>
+                    
+                    <div class="cta-grid">
+                        <div class="cta-item">
+                            <div class="cta-item-icon">🏭</div>
+                            <h3>Ambiente de Clase Mundial</h3>
+                            <p>Instalaciones modernas y seguras con tecnología de punta</p>
+                        </div>
+                        
+                        <div class="cta-item">
+                            <div class="cta-item-icon">📚</div>
+                            <h3>Capacitación Continua</h3>
+                            <p>Desarrollo profesional garantizado y actualización constante</p>
+                        </div>
+                        
+                        <div class="cta-item">
+                            <div class="cta-item-icon">💼</div>
+                            <h3>Estabilidad Laboral</h3>
+                            <p>Sector farmacéutico confiable con proyección de crecimiento</p>
+                        </div>
+                    </div>
+                    
+                    <button class="cta-button" onclick="alert('¡Excelente! Contacta a tu empresa de reclutamiento para más información sobre esta oportunidad.')">
+                        Aplica Ahora
+                    </button>
+                    
+                    <div class="contact-info">
+                        <p>📞 Teléfono: [Agrega tu número]</p>
+                        <p>📧 Email: [Agrega tu email]</p>
+                        <p>🌐 Web: [Agrega tu sitio]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progress Indicator -->
+    <div class="progress-indicator">
+        <div class="progress-dot active" data-slide="0"></div>
+        <div class="progress-dot" data-slide="1"></div>
+        <div class="progress-dot" data-slide="2"></div>
+        <div class="progress-dot" data-slide="3"></div>
+        <div class="progress-dot" data-slide="4"></div>
+        <div class="progress-dot" data-slide="5"></div>
+        <div class="progress-dot" data-slide="6"></div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.progress-dot');
+        let currentSlide = 0;
+        let autoPlayInterval;
+
+        function updateSlide(index) {
+            if (index < 0 || index >= slides.length) return;
+            
+            currentSlide = index;
+            slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+        }
+
+        function nextSlide() {
+            updateSlide((currentSlide + 1) % slides.length);
+        }
+
+        function prevSlide() {
+            updateSlide((currentSlide - 1 + slides.length) % slides.length);
+        }
+
+        function startAutoPlay() {
+            stopAutoPlay();
+            autoPlayInterval = setInterval(nextSlide, 10000);
+        }
+
+        function stopAutoPlay() {
+            if (autoPlayInterval) {
+                clearInterval(autoPlayInterval);
+            }
+        }
+
+        // Navegación con teclado
+        document.addEventListener('keydown', (e) => {
+            stopAutoPlay();
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                nextSlide();
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            }
+            startAutoPlay();
+        });
+
+        // Click en dots para navegación directa
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                stopAutoPlay();
+                updateSlide(index);
+                startAutoPlay();
+            });
+        });
+
+        // Detectar scroll para actualizar indicador
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const scrollPosition = window.scrollY + window.innerHeight / 2;
+                slides.forEach((slide, index) => {
+                    const slideTop = slide.offsetTop;
+                    const slideBottom = slideTop + slide.offsetHeight;
+                    if (scrollPosition >= slideTop && scrollPosition < slideBottom) {
+                        currentSlide = index;
+                        dots.forEach((dot, i) => {
+                            dot.classList.toggle('active', i === currentSlide);
+                        });
+                    }
+                });
+            }, 100);
+        });
+
+        // Touch events para móviles
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.changedTouches[0].screenY;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            if (touchStartY - touchEndY > swipeThreshold) {
+                // Swipe up
+                stopAutoPlay();
+                nextSlide();
+                startAutoPlay();
+            } else if (touchEndY - touchStartY > swipeThreshold) {
+                // Swipe down
+                stopAutoPlay();
+                prevSlide();
+                startAutoPlay();
+            }
+        }
+
+        // Pausar autoplay cuando el usuario interactúa
+        document.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('progress-dot') && !e.target.classList.contains('cta-button')) {
+                stopAutoPlay();
+                startAutoPlay();
+            }
+        });
+
+        // Pausar cuando la pestaña no está visible
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                stopAutoPlay();
+            } else {
+                startAutoPlay();
+            }
+        });
+
+        // Iniciar autoplay al cargar
+        startAutoPlay();
+
+        // Asegurar que empiece en el primer slide
+        updateSlide(0);
+    </script>
+</body>
+</html>
