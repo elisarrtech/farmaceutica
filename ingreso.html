@@ -134,8 +134,7 @@
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
             border: 2px solid #00aeef;
-            position: relative;
-            transition: transform 0.3s, background 0.3s;
+            transition: transform 0.3s;
         }
         
         .process-step:hover {
@@ -464,28 +463,28 @@
             <div class="background-pattern"></div>
             <div class="slide-content">
                 <h2>🎯 Paso 1: Recepción</h2>
-                <p style="font-size: clamp(1.2rem, 2.5vw, 1.8rem); margin-bottom: 3rem; max-width: 900px; margin-left: auto; margin-right: auto;">Al llegar, recibirás tu equipo de seguridad completo</p>
+                <p style="font-size: clamp(1.2rem, 2.5vw, 1.8rem); margin-bottom: 3rem; max-width: 900px; margin-left: auto; margin-right: auto;">Al llegar, recibirás tu equipo de seguridad completo: uniforme estéril, cubrebocas, cofia y overol, según normativas internacionales.</p>
                 
                 <div class="bullet-list">
                     <div class="bullet-item">
                         <div class="bullet-icon">👔</div>
                         <div class="bullet-text">
                             <strong>Uniforme Estéril Completo</strong>
-                            <p>Se te proporcionará pijama farmacéutica y overol de protección de acuerdo a normativas internacionales</p>
+                            <p>Pijama y overol de acuerdo a normativas internacionales</p>
                         </div>
                     </div>
                     <div class="bullet-item">
                         <div class="bullet-icon">🛡️</div>
                         <div class="bullet-text">
                             <strong>Equipo de Protección Personal</strong>
-                            <p>Todo el material cumple normativas GMP (Good Manufacturing Practices) garantizando tu seguridad</p>
+                            <p>Material certificado GMP para tu seguridad</p>
                         </div>
                     </div>
                     <div class="bullet-item">
                         <div class="bullet-icon">👨‍⚕️</div>
                         <div class="bullet-text">
                             <strong>Asistencia Profesional</strong>
-                            <p>Personal capacitado te guiará paso a paso en tu primer día de trabajo</p>
+                            <p>Personal capacitado te guiará paso a paso</p>
                         </div>
                     </div>
                 </div>
@@ -497,7 +496,7 @@
             <div class="background-pattern"></div>
             <div class="slide-content">
                 <h2>🔒 Sistema de Doble Filtro</h2>
-                <p style="font-size: clamp(1.1rem, 2vw, 1.6rem); margin-bottom: 3rem;">Arquitectura certificada de protección máxima</p>
+                <p style="font-size: clamp(1.1rem, 2vw, 1.6rem); margin-bottom: 3rem;">Arquitectura certificada de protección máxima, bajo normativas FDA y COFEPRIS.</p>
                 
                 <div class="process-diagram">
                     <div class="process-step" style="background: rgba(128, 128, 128, 0.2);">
@@ -627,7 +626,7 @@
                     <div class="equipment-item">
                         <div class="equipment-icon">👞</div>
                         <div class="equipment-name">5. Calzado de Seguridad</div>
-                        <div class="equipment-desc">Zapatos especializados antiestáticos</div>
+                        <div class="equipment-desc">Zapatos especializados antiestático</div>
                     </div>
                     
                     <div class="equipment-item">
@@ -726,145 +725,13 @@
         </div>
     </div>
 
-    <!-- Progress Indicator -->
-    <div class="progress-indicator">
-        <div class="progress-dot active" data-slide="0"></div>
-        <div class="progress-dot" data-slide="1"></div>
-        <div class="progress-dot" data-slide="2"></div>
-        <div class="progress-dot" data-slide="3"></div>
-        <div class="progress-dot" data-slide="4"></div>
-        <div class="progress-dot" data-slide="5"></div>
-        <div class="progress-dot" data-slide="6"></div>
-    </div>
-
-    <script>
-        const slides = document.querySelectorAll('.slide');
-        const dots = document.querySelectorAll('.progress-dot');
-        let currentSlide = 0;
-        let autoPlayInterval;
-
-        function updateSlide(index) {
-            if (index < 0 || index >= slides.length) return;
-            
-            currentSlide = index;
-            slides[currentSlide].scrollIntoView({ behavior: 'smooth', block: 'start' });
-            
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === currentSlide);
-            });
-        }
-
-        function nextSlide() {
-            updateSlide((currentSlide + 1) % slides.length);
-        }
-
-        function prevSlide() {
-            updateSlide((currentSlide - 1 + slides.length) % slides.length);
-        }
-
-        function startAutoPlay() {
-            stopAutoPlay();
-            autoPlayInterval = setInterval(nextSlide, 10000);
-        }
-
-        function stopAutoPlay() {
-            if (autoPlayInterval) {
-                clearInterval(autoPlayInterval);
-            }
-        }
-
-        // Navegación con teclado
-        document.addEventListener('keydown', (e) => {
-            stopAutoPlay();
-            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-                nextSlide();
-            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-                prevSlide();
-            } else if (e.key === ' ') {
-                e.preventDefault();
-                nextSlide();
-            }
-            startAutoPlay();
-        });
-
-        // Click en dots para navegación directa
-        dots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                stopAutoPlay();
-                updateSlide(index);
-                startAutoPlay();
-            });
-        });
-
-        // Detectar scroll para actualizar indicador
-        let scrollTimeout;
-        window.addEventListener('scroll', () => {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                const scrollPosition = window.scrollY + window.innerHeight / 2;
-                slides.forEach((slide, index) => {
-                    const slideTop = slide.offsetTop;
-                    const slideBottom = slideTop + slide.offsetHeight;
-                    if (scrollPosition >= slideTop && scrollPosition < slideBottom) {
-                        currentSlide = index;
-                        dots.forEach((dot, i) => {
-                            dot.classList.toggle('active', i === currentSlide);
-                        });
-                    }
-                });
-            }, 100);
-        });
-
-        // Touch events para móviles
-        let touchStartY = 0;
-        let touchEndY = 0;
-
-        document.addEventListener('touchstart', (e) => {
-            touchStartY = e.changedTouches[0].screenY;
-        });
-
-        document.addEventListener('touchend', (e) => {
-            touchEndY = e.changedTouches[0].screenY;
-            handleSwipe();
-        });
-
-        function handleSwipe() {
-            const swipeThreshold = 50;
-            if (touchStartY - touchEndY > swipeThreshold) {
-                // Swipe up
-                stopAutoPlay();
-                nextSlide();
-                startAutoPlay();
-            } else if (touchEndY - touchStartY > swipeThreshold) {
-                // Swipe down
-                stopAutoPlay();
-                prevSlide();
-                startAutoPlay();
-            }
-        }
-
-        // Pausar autoplay cuando el usuario interactúa
-        document.addEventListener('click', (e) => {
-            if (!e.target.classList.contains('progress-dot') && !e.target.classList.contains('cta-button')) {
-                stopAutoPlay();
-                startAutoPlay();
-            }
-        });
-
-        // Pausar cuando la pestaña no está visible
-        document.addEventListener('visibilitychange', () => {
-            if (document.hidden) {
-                stopAutoPlay();
-            } else {
-                startAutoPlay();
-            }
-        });
-
-        // Iniciar autoplay al cargar
-        startAutoPlay();
-
-        // Asegurar que empiece en el primer slide
-        updateSlide(0);
-    </script>
+    <!-- Audio files (hidden) -->
+    <audio id="audio1" src="audio1.mp3" preload="auto"></audio>
+    <audio id="audio2" src="audio2.mp3" preload="auto"></audio>
+    <audio id="audio3" src="audio3.mp3" preload="auto"></audio>
+    <audio id="audio4" src="audio4.mp3" preload="auto"></audio>
+    <audio id="audio5" src="audio5.mp3" preload="auto"></audio>
+    <audio id="audio6" src="audio6.mp3" preload="auto"></audio>
+    <audio id="audio7" src="audio7.mp3" preload="auto"></audio>
 </body>
 </html>
