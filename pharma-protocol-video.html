@@ -233,7 +233,27 @@
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
         
-            
+     .avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ffd4a3, #ffb380);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+         font-size: 80px;
+        box-shadow: 0 10px 40px rgba(122, 201, 67, 0.5);
+        border: 4px solid #fff;
+        cursor: pointer;
+        transition: transform 0.3s;
+        position: relative;
+    }
+    .avatar:hover { transform: scale(1.05); }
+    .avatar.talking { animation: talking 0.5s ease-in-out infinite; }
+    @keyframes talking {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    }  
         .audio-controls {
             display: flex;
             gap: 0.5rem;
