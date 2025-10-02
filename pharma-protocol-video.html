@@ -332,7 +332,7 @@
         
         .progress-indicator {
             position: fixed;
-            bottom: 2rem;
+            bottom: 6.5rem;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -432,6 +432,42 @@
             transform: scale(0.95);
         }
 
+        .logo-bar-bottom {
+            position: fixed;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 110;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(122, 201, 67, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.4s ease;
+            opacity: 0.7;
+        }
+
+        .logo-bar-bottom:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 24px rgba(122, 201, 67, 0.25);
+            opacity: 1;
+            transform: translateX(-50%) translateY(-2px);
+        }
+        
+        .logo-bar-bottom.scrolled {
+            opacity: 0.3;
+            transform: translateX(-50%) scale(0.9);
+        }
+        
+        .logo-bar-bottom.scrolled:hover {
+            opacity: 0.9;
+            transform: translateX(-50%) scale(0.95);
+        }
+
         .logo-img-link {
             display: block;
             text-decoration: none;
@@ -500,6 +536,15 @@
 </head>
 <body>   
 <div class="logo-bar">
+    <a href="https://www.pharmaservice.com/" target="_blank" rel="noopener" class="logo-img-link" title="Ir a Phamaservice">
+        <img src="pharmaservice.png" alt="Phamaservice Logo" class="logo-img-nocircle" />
+    </a>
+    <a href="https://www.matchstaff.com/" target="_blank" rel="noopener" class="logo-img-link" title="Ir a MatchStaff">
+        <img src="logomatch.png" alt="Match Logo" class="logo-img-nocircle" />
+    </a>
+</div>
+
+<div class="logo-bar-bottom">
     <a href="https://www.pharmaservice.com/" target="_blank" rel="noopener" class="logo-img-link" title="Ir a Phamaservice">
         <img src="pharmaservice.png" alt="Phamaservice Logo" class="logo-img-nocircle" />
     </a>
@@ -756,6 +801,7 @@
         const nextBtn = document.getElementById('next');
         const volumeSlider = document.getElementById('volume');
         const logoBar = document.querySelector('.logo-bar');
+        const logoBarBottom = document.querySelector('.logo-bar-bottom');
         
         let current = 0;
         let isPlaying = false;
@@ -765,8 +811,10 @@
         window.addEventListener('scroll', () => {
             if (window.scrollY > 100) {
                 logoBar.classList.add('scrolled');
+                logoBarBottom.classList.add('scrolled');
             } else {
                 logoBar.classList.remove('scrolled');
+                logoBarBottom.classList.remove('scrolled');
             }
         });
 
