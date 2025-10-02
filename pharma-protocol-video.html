@@ -221,6 +221,17 @@
         
         .contact-info { margin-top: 3rem; color: white; font-size: clamp(1rem, 2vw, 1.3rem); }
         .contact-info p { margin: 0.8rem 0; }
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .contact-info a:hover {
+            color: #fff;
+            transform: translateX(5px);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
         
         /* Avatar */
         .avatar-container {
@@ -699,11 +710,11 @@
                             <p>Sector confiable</p>
                         </div>
                     </div>
-                    <button class="cta-button">Aplica Ahora</button>
+                    <button class="cta-button" onclick="window.open('https://matchstaff.com.mx/', '_blank')">Aplica Ahora</button>
                     <div class="contact-info">
-                        <p>📞 [Tu Teléfono]</p>
-                        <p>📧 felipe.jimenez@matchstaff.com.mx</p>
-                        <p>🌐 www.matchstaff.com.mx</p>
+                        <p>📞 <a href="tel:+524425750940">442 575 0940</a></p>
+                        <p>📧 <a href="mailto:felipe.jimenez@matchstaff.com.mx">felipe.jimenez@matchstaff.com.mx</a></p>
+                        <p>🌐 <a href="https://matchstaff.com.mx/" target="_blank" rel="noopener">www.matchstaff.com.mx</a></p>
                     </div>
                 </div>
             </div>
