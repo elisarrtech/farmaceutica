@@ -233,7 +233,19 @@
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
         }
         
-       .avatar {
+        /* Avatar - ARRIBA DERECHA */
+        .avatar-container {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .avatar {
             width: 150px;
             height: 150px;
             border-radius: 50%;
@@ -257,7 +269,7 @@
             50% { transform: scale(1.05); }
         }
         
-        /* Cofia médica azul */
+        /* Cofia médica azul claro */
         .avatar-hat {
             position: absolute;
             top: -15px;
@@ -335,7 +347,7 @@
         
         .progress-indicator {
             position: fixed;
-            bottom: 6.5rem;
+            bottom: 2rem;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -429,7 +441,7 @@
 
         .logo-bar-bottom {
             position: fixed;
-            bottom: 1rem;
+            bottom: 5rem;
             left: 50%;
             transform: translateX(-50%);
             z-index: 110;
@@ -504,11 +516,11 @@
             filter: drop-shadow(0 3px 6px rgba(122, 201, 67, 0.5));
         }
 
-        /* Chatbot Styles MEJORADOS */
+        /* Chatbot - ABAJO DERECHA */
         .chatbot-container {
             position: fixed;
             bottom: 1.5rem;
-            left: 1.5rem;
+            right: 1.5rem;
             z-index: 300;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
@@ -569,7 +581,7 @@
         .chat-window {
             position: absolute;
             bottom: 85px;
-            left: 0;
+            right: 0;
             width: 420px;
             max-width: calc(100vw - 3rem);
             height: 600px;
@@ -909,16 +921,16 @@
                 max-width: 100px;
             }
             .progress-indicator {
-                bottom: 11rem;
+                bottom: 2rem;
             }
-            .avatar-container { bottom: 6rem; right: 1rem; }
+            .avatar-container { top: 1rem; right: 1rem; }
             .avatar { width: 100px; height: 100px; font-size: 50px; }
+            .avatar-hat { top: -10px; width: 80px; height: 35px; }
             .avatar-mouth { bottom: 25px; width: 30px; height: 15px; }
             .avatar-eyes { top: 30px; gap: 15px; }
             .avatar-eye { width: 8px; height: 8px; }
             .chatbot-container {
                 bottom: 1rem;
-                left: 1rem;
                 right: 1rem;
             }
             
@@ -933,9 +945,7 @@
                 height: calc(100vh - 180px);
                 max-height: 550px;
                 bottom: 75px;
-                left: 0;
                 right: 0;
-                margin: 0 auto;
             }
 
             .chat-messages {
@@ -1032,7 +1042,7 @@
         <!-- Slide 2 -->
         <div class="slide" data-slide="1" data-audio="audio2">
             <div class="slide-content">
-                <h2>🎯 Paso 1: Recepción</h2>
+                <h2>Paso 1: Recepción</h2>
                 <p style="font-size: clamp(1.2rem, 2.5vw, 1.8rem); margin-bottom: 3rem;">Al llegar, recibirás tu equipo de seguridad completo</p>
                 <div class="bullet-list">
                     <div class="bullet-item">
@@ -1063,7 +1073,7 @@
         <!-- Slide 3 -->
         <div class="slide" data-slide="2" data-audio="audio3">
             <div class="slide-content">
-                <h2>🔒 Sistema de Doble Filtro</h2>
+                <h2>Sistema de Doble Filtro</h2>
                 <p style="font-size: clamp(1.1rem, 2vw, 1.6rem); margin-bottom: 3rem;">Arquitectura certificada de protección máxima</p>
                 <div class="process-diagram">
                     <div class="process-step" style="background: rgba(128, 128, 128, 0.2);">
@@ -1093,7 +1103,7 @@
         <!-- Slide 4 -->
         <div class="slide" data-slide="3" data-audio="audio4">
             <div class="slide-content">
-                <h2>1️⃣ Filtro 1: Transición</h2>
+                <h2>Filtro 1: Transición</h2>
                 <div class="bullet-list">
                     <div class="bullet-item">
                         <div class="bullet-icon">👕</div>
@@ -1123,7 +1133,7 @@
         <!-- Slide 5 -->
         <div class="slide" data-slide="4" data-audio="audio5">
             <div class="slide-content">
-                <h2>2️⃣ Filtro 2: Preparación Final</h2>
+                <h2>Filtro 2: Preparación Final</h2>
                 <p style="margin-bottom: 3rem;">Seis pasos para acceder a producción</p>
                 <div class="equipment-grid">
                     <div class="equipment-item">
@@ -1163,7 +1173,7 @@
         <!-- Slide 6 -->
         <div class="slide" data-slide="5" data-audio="audio6">
             <div class="slide-content">
-                <h2>🎯 Listo para Producir</h2>
+                <h2>Listo para Producir</h2>
                 <div class="bullet-list">
                     <div class="bullet-item">
                         <div class="bullet-icon">🌟</div>
@@ -1223,15 +1233,16 @@
         </div>
     </div>
 
-    <!-- Avatar -->
+    <!-- Avatar - ARRIBA DERECHA -->
     <div class="avatar-container">
         <div class="avatar" id="avatar">
             <div class="audio-indicator" id="audioIndicator" style="display: none;"></div>
+            <div class="avatar-hat"></div>
             <div class="avatar-eyes">
                 <div class="avatar-eye"></div>
                 <div class="avatar-eye"></div>
             </div>
-            👨‍⚕️
+            👩‍⚕️
             <div class="avatar-mouth"></div>
         </div>
         <div class="audio-controls">
@@ -1248,7 +1259,7 @@
     <!-- Progress -->
     <div class="progress-indicator" id="progress"></div>
 
-    <!-- Chatbot -->
+    <!-- Chatbot - ABAJO DERECHA -->
     <div class="chatbot-container">
         <button class="chatbot-button" id="chatbotToggle">💬</button>
         <div class="chat-window" id="chatWindow">
@@ -1534,7 +1545,6 @@
         function addBotMessage(text) {
             const messageDiv = document.createElement('div');
             messageDiv.className = 'chat-message message-bot';
-            // Replace \n with <br> for line breaks
             const formattedText = text.replace(/\n/g, '<br>');
             messageDiv.innerHTML = `
                 <div class="message-bot-avatar">🤖</div>
@@ -1613,9 +1623,6 @@
             
             console.log('Datos preparados para guardar:', dataToSave);
             
-            // AQUÍ VA TU URL DE GOOGLE SHEETS
-            // Descomenta el código fetch y reemplaza 'TU_URL_AQUI' con tu URL
-            
             fetch('https://script.google.com/macros/s/AKfycbzuMpJCfYre9A44GZcV77YxKMwyqlNRpeT9cRj2pZOPCXBGl3TN5clNHItuEiqN0p-x/exec', {
                 method: 'POST',
                 mode: 'no-cors',
@@ -1630,7 +1637,6 @@
             .catch((error) => {
                 console.error('Error al enviar datos:', error);
             });
-            
         }
 
         function scrollToBottom() {
