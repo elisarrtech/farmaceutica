@@ -791,6 +791,29 @@
     <!-- Progress -->
     <div class="progress-indicator" id="progress"></div>
 
+    <!-- Chatbot -->
+    <div class="chatbot-container">
+        <button class="chatbot-button" id="chatbotToggle">💬</button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-header-icon">🤝</div>
+                <div class="chat-header-text">
+                    <h3>MatchStaff</h3>
+                    <p>¡Te ayudamos a encontrar tu oportunidad!</p>
+                </div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be added here -->
+            </div>
+            <div class="chat-input-area">
+                <div class="chat-input-group">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Escribe tu respuesta...">
+                    <button class="chat-send-btn" id="chatSend">➤</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         const slides = document.querySelectorAll('.slide');
         const avatar = document.getElementById('avatar');
@@ -963,6 +986,172 @@
         });
 
         updateButtons();
+    </script>
+
+    <script>
+        // Chatbot functionality
+        const chatbotToggle = document.getElementById('chatbotToggle');
+        const chatWindow = document.getElementById('chatWindow');
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const chatSend = document.getElementById('chatSend');
+
+        let chatStep = 0;
+        let userData = {
+            nombre: '',
+            telefono: '',
+            estado: '',
+            correo: '',
+            sueldo: ''
+        };
+
+        const questions = [
+            { field: 'nombre', text: '¡Hola! 👋 Soy el asistente de MatchStaff. Me gustaría conocerte mejor. ¿Cuál es tu nombre completo?' },
+            { field: 'telefono', text: '¡Mucho gusto, {nombre}! 😊 ¿Cuál es tu número de teléfono?' },
+            { field: 'estado', text: 'Perfecto. ¿En qué estado de México te encuentras?' },
+            { field: 'correo', text: 'Genial. ¿Cuál es tu correo electrónico?' },
+            { field: 'sueldo', text: 'Por último, ¿cuál es tu expectativa salarial mensual? (en pesos mexicanos)' }
+        ];
+
+        // Toggle chat window
+        chatbotToggle.addEventListener('click', () => {
+            const isOpen = chatWindow.classList.toggle('open');
+            chatbotToggle.classList.toggle('active');
+            chatbotToggle.textContent = isOpen ? '✕' : '💬';
+            
+            if (isOpen && chatMessages.children.length === 0) {
+                setTimeout(() => {
+                    addBotMessage(questions[0].text);
+                }, 500);
+            }
+        });
+
+        // Send message
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addUserMessage(message);
+            chatInput.value = '';
+
+            // Store user data
+            const currentQuestion = questions[chatStep];
+            userData[currentQuestion.field] = message;
+
+            chatStep++;
+
+            // Show typing indicator
+            showTyping();
+
+            setTimeout(() => {
+                hideTyping();
+                
+                if (chatStep < questions.length) {
+                    // Ask next question
+                    let nextQuestion = questions[chatStep].text;
+                    nextQuestion = nextQuestion.replace('{nombre}', userData.nombre.split(' ')[0]);
+                    addBotMessage(nextQuestion);
+                } else {
+                    // All questions answered
+                    showSuccessMessage();
+                    saveDataToSpreadsheet();
+                }
+            }, 1500);
+        }
+
+        chatSend.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function addBotMessage(text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message message-bot';
+            messageDiv.innerHTML = `
+                <div class="message-bot-avatar">🤖</div>
+                <div class="message-bot-text">${text}</div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function addUserMessage(text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message message-user';
+            messageDiv.innerHTML = `
+                <div class="message-user-text">${text}</div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+        }
+
+        function showTyping() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'chat-message message-bot';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <div class="message-bot-avatar">🤖</div>
+                <div class="typing-indicator active">
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            scrollToBottom();
+        }
+
+        function hideTyping() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        function showSuccessMessage() {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message';
+            messageDiv.innerHTML = `
+                <div class="success-message">
+                    <h4>✅ ¡Gracias por tu interés!</h4>
+                    <p>Hemos recibido tu información correctamente. Nuestro equipo se pondrá en contacto contigo pronto.</p>
+                </div>
+            `;
+            chatMessages.appendChild(messageDiv);
+            scrollToBottom();
+
+            // Disable input
+            chatInput.disabled = true;
+            chatSend.disabled = true;
+            chatInput.placeholder = 'Conversación finalizada';
+
+            // Log data (will be replaced with spreadsheet integration)
+            console.log('Datos del candidato:', userData);
+        }
+
+        function saveDataToSpreadsheet() {
+            // This function will be implemented in the next step to save to Google Sheets
+            // For now, it just stores the data in memory
+            console.log('Guardando datos:', userData);
+            
+            // You can add your Google Sheets API call here
+            // Example structure for the data:
+            const dataToSave = {
+                timestamp: new Date().toISOString(),
+                ...userData
+            };
+            
+            console.log('Datos preparados para guardar:', dataToSave);
+        }
+
+        function scrollToBottom() {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
     </script>
 </body>
 </html>
