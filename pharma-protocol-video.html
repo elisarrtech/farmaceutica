@@ -1200,28 +1200,41 @@
         </div>
     </div>
 
-    <!-- Avatar - ARRIBA DERECHA -->
-    <div class="avatar-container">
-        <div class="avatar" id="avatar">
-            <div class="audio-indicator" id="audioIndicator" style="display: none;"></div>
-            <div class="avatar-hat"></div>
-            <div class="avatar-eyes">
-                <div class="avatar-eye"></div>
-                <div class="avatar-eye"></div>
-            </div>
-            👩‍⚕️
-            <div class="avatar-mouth"></div>
-        </div>
-        <div class="audio-controls">
-            <button class="control-btn" id="prev" title="Anterior">⏮</button>
-            <button class="control-btn" id="play" title="Play/Pausa">▶️</button>
-            <button class="control-btn" id="next" title="Siguiente">⏭</button>
-        </div>
-        <div class="volume-control">
-            <span style="color: white; font-size: 1.2rem;">🔊</span>
-            <input type="range" id="volume" min="0" max="100" value="80" class="volume-slider">
-        </div>
+  <!-- Avatar - ARRIBA DERECHA -->
+<div class="avatar-container">
+    <div class="avatar" id="avatar">
+        <div class="audio-indicator" id="audioIndicator" style="display: none;"></div>
+        <svg width="100%" height="100%" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+            <!-- Fondo de la cabeza (piel) -->
+            <circle cx="75" cy="60" r="30" fill="#f9d4b4" />
+            <!-- Pelo recogido (profesional) -->
+            <path d="M45,60 Q75,20 105,60 Q100,80 75,85 Q50,80 45,60 Z" fill="#5D4037" />
+            <!-- Bata blanca -->
+            <path d="M30,90 L120,90 L120,140 Q75,150 30,140 Z" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+            <!-- Cuello de la bata -->
+            <path d="M60,90 L75,100 L90,90" fill="#ffffff" stroke="#e0e0e0" stroke-width="2"/>
+            <!-- Estetoscopio (detalle profesional) -->
+            <circle cx="75" cy="110" r="8" fill="#7AC943" />
+            <line x1="75" y1="102" x2="75" y2="95" stroke="#7AC943" stroke-width="3" stroke-linecap="round"/>
+            <line x1="68" y1="110" x2="55" y2="110" stroke="#7AC943" stroke-width="2"/>
+            <line x1="82" y1="110" x2="95" y2="110" stroke="#7AC943" stroke-width="2"/>
+            <!-- Ojos -->
+            <circle cx="65" cy="55" r="4" fill="#2c1810" />
+            <circle cx="85" cy="55" r="4" fill="#2c1810" />
+            <!-- Sonrisa suave -->
+            <path d="M65,70 Q75,78 85,70" fill="none" stroke="#2c1810" stroke-width="2" stroke-linecap="round"/>
+        </svg>
     </div>
+    <div class="audio-controls">
+        <button class="control-btn" id="prev" title="Anterior">⏮</button>
+        <button class="control-btn" id="play" title="Play/Pausa">▶️</button>
+        <button class="control-btn" id="next" title="Siguiente">⏭</button>
+    </div>
+    <div class="volume-control">
+        <span style="color: white; font-size: 1.2rem;">🔊</span>
+        <input type="range" id="volume" min="0" max="100" value="80" class="volume-slider">
+    </div>
+</div>
 
     <!-- Progress -->
     <div class="progress-indicator" id="progress"></div>
